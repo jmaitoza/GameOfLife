@@ -47,7 +47,7 @@ public class GameOfLife implements GameInterface {
         {
             for (int j = 0; j < MAX_COLS; j++)
             {
-                targetMap[i][j] = false;
+                targetMap[i][j] = false; // sets the cell to dead
             }
         }
 
@@ -67,7 +67,24 @@ public class GameOfLife implements GameInterface {
         int count = 0;
 
         // ==> 3. Add your code here!
+        // up = (row,col-1)
+        // down = (row,col+1)
+        // left = (row-1,col)
+        // right = (row+1,col)
 
+        for (int i = row-1; i <= row+1; i++)
+        {
+            if (i >= 0 && i < map.length)
+            {
+                for (int j = col-1; j <= col+1; j++)
+                {
+                    if ((j >= 0 && j < map[i].length) && (i != row || j != col) && map[i][j])
+                    {
+                        count++;
+                    }
+                }
+            }
+        }
 
         return count;
     }
