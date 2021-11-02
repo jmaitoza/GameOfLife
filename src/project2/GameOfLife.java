@@ -104,12 +104,57 @@ public class GameOfLife implements GameInterface {
 
         // ==> 4. Add your code here!
 
-    }
+        // Birth rule:
+        // If a cell has exactly 3 live neighbors, it becomes alive in the next generation.
+        //
+        // Survival rule:
+        // If a cell has 2 or 3 live neighbors, it remains alive in the next generation.
+        //
+        // Death rule:
+        // If a cell has less than 2 live neighbors, it dies in the next generation.
+        // If a cell has more than 3 live neighbors, it dies in the next generation.
 
+        for (int i = 0; i < MAX_ROWS; i++)
+        {
+            for (int j = 0; j < MAX_COLS; j++)
+            {
+                int count = getFlatNeighborCount(i,j);
+
+                if (map[i][j])
+                {
+                    if (count < 2 || count > 3)
+                    {
+                        newMap[i][j] = false;
+                    }
+                    else
+                    {
+                        newMap[i][j] = true;
+                    }
+                }
+                else
+                {
+                    if (count == 3)
+                    {
+                        newMap[i][j] = true;
+                    }
+                    else
+                    {
+                        newMap[i][j] = false;
+                    }
+                }
+            }
+        }
+
+        copyMap(newMap);
+        generation++;
+    }
 
     // ==> 5. Implement the game of life for torus grid.
 
-    public  void nextGenerationForTorusGrid() {}
+    public  void nextGenerationForTorusGrid() {
+        int count = 0;
+
+    }
 
 
 
