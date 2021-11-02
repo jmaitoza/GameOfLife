@@ -30,10 +30,9 @@ public class GameOfLife implements GameInterface {
     private void copyMap(boolean sourceMap[][]) {
 
         // ==> 1. Add your code here!
-        map = new boolean[sourceMap.length][];
-        for (int i = 0; i < sourceMap.length; i++)
+        for (int i = 0; i < MAX_ROWS; i++)
         {
-            map[i] = Arrays.copyOf(sourceMap[i], sourceMap[i].length);
+            System.arraycopy(sourceMap[i], 0, map[i], 0, MAX_COLS);
         }
     }
 
@@ -44,6 +43,13 @@ public class GameOfLife implements GameInterface {
     private void clearMap(boolean targetMap[][]) {
 
         // ==> 2. Add your code here!
+        for (int i = 0; i < MAX_ROWS; i++)
+        {
+            for (int j = 0; j < MAX_COLS; j++)
+            {
+                targetMap[i][j] = false;
+            }
+        }
 
     }
 
