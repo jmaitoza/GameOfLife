@@ -1,5 +1,7 @@
 package project2;
 
+import java.util.Arrays;
+
 public class GameOfLife implements GameInterface {
     private boolean[][] originalMap,    // The initial cell configuration
                                 map,    // The current cell configuration
@@ -28,7 +30,11 @@ public class GameOfLife implements GameInterface {
     private void copyMap(boolean sourceMap[][]) {
 
         // ==> 1. Add your code here!
-
+        map = new boolean[sourceMap.length][];
+        for (int i = 0; i < sourceMap.length; i++)
+        {
+            map[i] = Arrays.copyOf(sourceMap[i], sourceMap[i].length);
+        }
     }
 
     // clearMap:
