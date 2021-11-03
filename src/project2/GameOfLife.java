@@ -151,12 +151,110 @@ public class GameOfLife implements GameInterface {
 
     // ==> 5. Implement the game of life for torus grid.
 
-    public  void nextGenerationForTorusGrid() {
+    //getTorusNeighborCount:
+    // Precondition: -1 <= row < MAX_ROWS and -1 <= col < MAX_COLS.
+    // Postcondition: A count of all LIVE neighbors of the cell at [row, col] is
+    //                returned where its neighbors are all the ADJACENT cells
+    //                including those
+    //                a) In the rows BELOW and ABOVE the cell (if any exist).
+    //                b) In the columns LEFT and RIGHT of the cell (if any exist).
+    //                c) As well as the edges of the board.
+    //                Thus, a cell adjacent to a board edge (or corner) has
+    //                the same neighbors as other cells.
+    //
+    private int getTorusNeighborCount(int row, int col) {
         int count = 0;
+        int tempI;
+        int tempJ;
 
+        for (int i = row-1; i <= row+1; i++)
+        {
+            tempI = i;
+            if (i == -1)
+            {
+                tempI = MAX_ROWS-1;
+            }
+            if (i == MAX_ROWS)
+            {
+                tempI = 0;
+            }
+            for (int j = col-1; j <= col+1; j++)
+            {
+                tempJ = j;
+                if (j == -1)
+                {
+                    tempJ = MAX_COLS-1;
+                }
+                if (j == MAX_COLS)
+                {
+                    tempJ = 0;
+                }
+                if ((tempI != row || tempJ != col) && map[tempI][tempJ])
+                {
+                    count++;
+                }
+            }
+        }
+
+        return count;
     }
 
 
+    // nextGenerationForTorusGrid:
+    // Precondtions: None
+    // Postcondition: The next generation of live and dead cells is calculated using
+    //               a) the TORUS neighbor counts.
+    //               b) the current birth, survival and death count rules.
+    //               c) the rules are applied to the counts obtained from the current
+    //                  generation's configuration of live and dead cells.
+    //               The current 'map' is updated to the next generation's configuration
+    //               of live and dead cells.
+    //
+    public  void nextGenerationForTorusGrid() {
+        int count = 0;
+        // Birth rule:
+        // If a cell has exactly 3 live neighbors, it becomes alive in the next generation.
+        //
+        // Survival rule:
+        // If a cell has 2 or 3 live neighbors, it remains alive in the next generation.
+        //
+        // Death rule:
+        // If a cell has less than 2 live neighbors, it dies in the next generation.
+        // If a cell has more than 3 live neighbors, it dies in the next generation.
+
+        for (int i = 0; i < MAX_ROWS; i++)
+        {
+            for (int j = 0; j < MAX_COLS; j++)
+            {
+                count = getTorusNeighborCount(i,j);
+                if (map[i][j])
+                {
+                    if (count < 2 || count > 3)
+                    {
+                        newMap[i][j] = false;
+                    }
+                    else
+                    {
+                        newMap[i][j] = true;
+                    }
+                }
+                else
+                {
+                    if (count == 3)
+                    {
+                        newMap[i][j] = true;
+                    }
+                    else
+                    {
+                        newMap[i][j] = false;
+                    }
+                }
+            }
+        }
+
+        copyMap(newMap);
+        generation++;
+    }
 
 
     //  ====>>>>> Don't touch the code below this line! <<<<<====
